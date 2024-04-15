@@ -1,0 +1,23 @@
+vector<int> countElements(vector<int> &a, vector<int> &b, int n, vector<int> &query,
+                              int q) {
+        int maxi=0;
+        for(int i=0;i<n;i++)
+        {
+            maxi=max({maxi,a[i],b[i]});
+        }
+        vector<int>tmp(maxi+1,0);
+        for(int i=0;i<n;i++)
+        {
+            tmp[b[i]]++;
+        }
+        for(int i=1;i<=maxi;i++)
+        {
+            tmp[i]+=tmp[i-1];
+        }
+        vector<int>ans;
+        for(auto it:query)
+        {
+            ans.push_back(tmp[a[it]]);
+        }
+        return ans;
+    }
