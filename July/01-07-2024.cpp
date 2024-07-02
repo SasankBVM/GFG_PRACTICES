@@ -1,26 +1,26 @@
-void sol(int idx,vector<int>&arr,TreeNode* &rt)
-    {
-        rt=new TreeNode(arr[idx]);
-        int lft=2*idx+1,rgt=2*idx+2;
-        if(lft<arr.size())
-        {
-            
-            sol(lft,arr,rt->left);
-        }
-        else return;
-        if(rgt<arr.size())
-        {
-            sol(rgt,arr,rt->right);
-        }
-        else return;
-    }
-    void convert(Node *head, TreeNode *&root) {
-        vector<int>tmp;
+void convert(Node *head, TreeNode *&root) {
         Node *nd=head;
+        unordered_map<int,TreeNode*>mp;
+        queue<pair<int,TreeNode*>>q;
+        int lvl=0;
         while(nd)
         {
-            tmp.push_back(nd->data);
+            TreeNode *nn=new TreeNode(nd->data);
+            mp[lvl]=nn;
+            q.push({lvl,nn});
             nd=nd->next;
+            lvl++;
         }
-        sol(0,tmp,root);
+        while(!q.empty())
+        {
+            int ld=q.front().first;
+            TreeNode *nn=q.front().second;
+            q.pop();
+            if(ld==0)
+            {
+                root=nn;
+            }
+            if(2*ld+1<lvl) nn->left=mp[2*ld+1];
+            if(2*ld+2<lvl) nn->right=mp[2*ld+2];
+        }
     }
